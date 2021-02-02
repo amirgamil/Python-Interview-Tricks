@@ -9,8 +9,10 @@ For Python >= 3.6
 Most of us are familiar with arrays, how to define them, and the common operations we use them for 
 ```python
 arr = [1, 2]
-arr.append(1)
-arr.pop()
+arr.append(1) #[1, 2, 1]
+arr.pop() #[1, 2]
+#can also concatenate with a +. If this is only one element it's an O(1) operation, otherwise, it becomes an O(n) operation
+arr = arr + [5] #[1, 2, 5]
 ```
 Append is an O(1) operation, pop is an O(1) operation, but only for the last index. Poppping anywhere else is an O(n) since the list has to be shifted accordingly. 
 
@@ -111,8 +113,9 @@ s = ["a", "b", "c", "d"]
 #specify the character to join elements in the array with in the quotations.
 a = "".join(s) # "abcd"
 
-#NOTE - string concatenation in Python is an O(n) operation! If you're building a string, it's better to store the characters in an array,
-#append each new character to the array - which is O(1) - and then use join once at the end which is O(n)
+#NOTE - string concatenation in Python is an O(n) operation! If you're building a string, it's better to store 
+#the characters in an array, append each new character to the array - which is O(1) - and then use join once at 
+#the end which is O(n)
 ```
 
 
