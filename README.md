@@ -175,7 +175,7 @@ ordinaryDict["a"] += 1
 Defaultdicts are incredibly useful when you need to keep track of frequency of elements or create a map but you don't want to have to keep checking if a key
 is already in the dictionary, and adding it if it's not. In particular they're useful for 
 1. creating adjacency lists
-you can specify a defaultdict to take a list as a value which is very handy. Here's a snippet from [Course Schedule](https://leetcode.com/problems/course-schedule/) to quickly create a list
+you can specify a defaultdict to take a list as a value which is very handy. Here's a snippet from [Course Schedule](https://leetcode.com/problems/course-schedule/) to quickly create an adjacency list
 ```python
 """
 :type numCourses: int
