@@ -1,5 +1,4 @@
 # Python-Interview-Tricks
-
 This is a thorough list of all of the useful Python data structures and tricks to know for interviews. I will add to this over time as I find more useful features.
 
 For Python >= 3.6
