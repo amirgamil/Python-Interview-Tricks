@@ -62,6 +62,24 @@ arr[::-1] #[4, 3, 2, 1]
 arr[::-2] #[4, 2]
 ```
 
+#### Operations
+Other useful operations are min and max, if you pass in an array these will run in O(n) time
+```python
+arr = [1, 2, 3, 4]
+min(arr) #1
+max(arr) #4
+```
+
+A common edge case is when you check if an array is empty, you can do this very easily with
+```python
+arr = []
+if not arr:
+       print("It's empty")
+```
+
+Using the in operation to check if an element is an array is O(n) each time since it performs linear search. It's often more useful to convert
+the array into a set (more on this below), and then you can access elements in O(1).
+
 
 ### Sorting Arrays and Lambda Functions
 If we want to sort an array, we can simple call .sort() on the array, which performs mergesort. This takes O(nlogn) time and O(n) space
@@ -116,9 +134,105 @@ a = "".join(s) # "abcd"
 #NOTE - string concatenation in Python is an O(n) operation! If you're building a string, it's better to store 
 #the characters in an array, append each new character to the array - which is O(1) - and then use join once at 
 #the end which is O(n)
+
+#in operation, checks whether a substring is in the string
+name = "John"
+"hn" in name #True
+"nh" in name #False - has to be a substring, not just contain the characters out of orders
 ```
 
+One very useful library in Python to quickly format strings is the Counter library in collections. If you initialize a Counter with a string, it will 
+return a dictionary with keys as the unique characters it finds and values as the frequency of the character. This is very useful in questions where 
+you have to parse strings before you can accomplish tasks like in [Task Scheduler](https://leetcode.com/problems/task-scheduler/).
 
+```python
+import collections.Counter
+string = "AAAABBBCCD"
+stringMap = Counter(string) # {"A":4, "B":3, "C":2, "D":1}
+stringMap.values() #[4, 3, 2, 1]
+```
+The most common types of questions you'll find involving strings will be on sliding windows, palindromes, and anagrams. A quick and dirty optimization for some of these questions is to notice whether **there are a limited number of characters as input**. If for example, all characters are lowecase, you can easily get O(1) space by having a size 26 array (for every character) rather than storing elements in a hashmap, which we're moving onto next.
+
+### Hashmaps/Dictionaries
+Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair mappings, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
+
+Defining a dictionary in Python is straightforward and most of us know how to do it. But there are some fancy tricks. The first is using a defaultdict. A defaultdict is a Python dictionary which handles keys that have not been already defined.
+```python
+import collections.defaultdict
+
+ordinaryDict = {}
+#we pass in the type that will be stored in values. Let's consider a map of characters to integers, we store ints as the value so we pass in int
+coolDict = collections.defaultDict(int)
+
+#this raises an exception since the key "a" is not defined in the dictionary
+ordinaryDict["a"] += 1 
+
+#this works like a charm!
+ordinaryDict["a"] += 1
+```
+
+Defaultdicts are incredibly useful when you need to keep track of frequency of elements or create a map but you don't want to have to keep checking if a key
+is already in the dictionary, and adding it if it's not. In particular they're useful for 
+1. creating adjacency lists
+you can specify a defaultdict to take a list as a value which is very handy. Here's a snippet from [Course Schedule](https://leetcode.com/problems/course-schedule/) to quickly create a list
+```python
+"""
+:type numCourses: int
+:type prerequisites: List[List[int]]
+:rtype: bool
+"""
+adjList = collections.defaultdict(list)
+for (course, preq) in prerequisites:
+       adjList[course].append(preq)
+        
+```
+Notice how I don't have to check if a course in the adjancey list, I can just append it because defaultdict handles values that haven't been defined
+
+2. sliding window problems where you keep track of character:frequency
+Imagine you're trying to count the number of characters that belong to certain ones
+```python
+string = "some string"
+toCount = ["a", "b", "c"]
+mapChars = collections.defaultdict(int)
+for char in string:
+       if char in toCount:
+              mapChars[char] += 1
+```
+
+Notice that toCount is an array which means when we call in, it will take O(n) where n = length of toCount. We can do better by using a HashSet. A set is
+the same as a dictionary, but it only stores elements, not mappings.
+```python
+string = "some string"
+toCount = set()
+toCount.add("a")
+toCount.add("b")
+toCount.add("c")
+#now when we call the in operation, it will take O(1) time!
+#we can also directly convert an array into a set by passing it into the set, which takes O(n) time
+arr = ["a", "b", "c"]
+arr = set(arr)
+```
+
+Sets are useful when we need to store states but don't have mapping. This is often helpful with situations like storing visited states in a depth first or breadth first search. Note also that you can store tuples, you're not limited to single elements. 
+```python
+visited = set()
+for row in range(rows):
+       for col in range(cols):
+              visited.add((row, col))
+```
+Anything that is immutable can be stored in sets and and can be used as a key in an array. If you want to store an array as a key in a hashmap, you'll want to first convert it into a tuple. This is a technique used in [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
+
+```python
+cache = collections.defaultdict(list)
+for word in strs:
+       arr = [0] * 26
+       for char in word:
+              arr[ord(char) - ord("a")] += 1
+        #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
+       cache[tuple(arr)].append(word)
+
+return cache.values()
+```
 
 
 
