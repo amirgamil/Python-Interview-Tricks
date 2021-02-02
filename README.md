@@ -97,7 +97,7 @@ Note that the sort function will **change the original array.** It does NOT crea
 
 ### Strings
 String in Python are immutable. Calling an operation on a string will return a new copy. Here are some useful tricks to know
-```pythons
+```python
 s = "hi"
 #split, takes in a string and converts to an array based on a delimiter. If you pass in nothing, it will split every character including spaces/special characters
 arr = s.split() ["h","i"]
