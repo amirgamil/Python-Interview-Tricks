@@ -154,7 +154,8 @@ stringMap.values() #[4, 3, 2, 1]
 The most common types of questions you'll find involving strings will be on sliding windows, palindromes, and anagrams. A quick and dirty optimization for some of these questions is to notice whether **there are a limited number of characters as input**. If for example, all characters are lowecase, you can easily get O(1) space by having a size 26 array (for every character) rather than storing elements in a hashmap, which we're moving onto next.
 
 ### Hashmaps/Dictionaries
-Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair mappings, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
+Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair 
+s, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
 
 Defining a dictionary in Python is straightforward and most of us know how to do it. But there are some fancy tricks. The first is using a defaultdict. A defaultdict is a Python dictionary which handles keys that have not been already defined.
 ```python
@@ -213,20 +214,21 @@ arr = ["a", "b", "c"]
 arr = set(arr)
 ```
 
-Sets are useful when we need to store states but don't have mapping. This is often helpful with situations like storing visited states in a depth first or breadth first search. Note also that you can store tuples, you're not limited to single elements. 
+Sets are useful when we need to store states but don't have/care about mappings. This is often helpful with situations like storing visited states in a depth first or breadth first search. Note also that you can store tuples, you're not limited to single elements. 
 ```python
 visited = set()
 for row in range(rows):
        for col in range(cols):
               visited.add((row, col))
 ```
-Anything that is immutable can be stored in sets and and can be used as a key in an array. If you want to store an array as a key in a hashmap, you'll want to first convert it into a tuple. This is a technique used in [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
+Anything that is immutable can be stored in sets and and can be used as a key in an dictionary. If you want to store an array as a key in a dictionary, you'll want to first convert it into a tuple. This is a technique used in [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
 
 ```python
 cache = collections.defaultdict(list)
 for word in strs:
        arr = [0] * 26
        for char in word:
+              #since characters are all lowercase, we can associate characters with indices in the array by the difference in their unicodes
               arr[ord(char) - ord("a")] += 1
         #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
        cache[tuple(arr)].append(word)
