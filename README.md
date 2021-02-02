@@ -67,7 +67,7 @@ If we want to sort an array, we can simple call .sort() on the array, which perf
 arr = [1, 5, 3, 2]
 arr.sort() #arr is now [1, 2, 3, 5]
 ```
-What about sorting more complicated arrays, like arrays of tuples (often found in [interval problems](https://leetcode.com/problems/merge-intervals/)? We can use lambda functions!
+What about sorting more complicated arrays, like arrays of tuples (often found in [interval problems](https://leetcode.com/problems/merge-intervals/))? We can use lambda functions!
 
 A lambda function is an annonymous inner function which we can pass in to they key parameter of sort. They key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value to choose to sort by.
 
@@ -92,7 +92,29 @@ arr.sort(reverse = True)
 arr # [4, 3, 2, 1]
 ```
 
-Note that the sort function will **change the original array.** It does not create a copy and return a new sorted array, it performs the operation on the reference to the array.
+Note that the sort function will **change the original array.** It does NOT create a copy and return a new sorted array, it performs the operation directly on the array. Keep this in mind if you can't modify or corrupt the original array.
+
+
+### Strings
+String in Python are immutable. Calling an operation on a string will return a new copy. Here are some useful tricks to know
+```pythons
+s = "hi"
+#split, takes in a string and converts to an array based on a delimiter. If you pass in nothing, it will split every character including spaces/special characters
+arr = s.split() ["h","i"]
+
+#concatenation - this is slow, there's a better way with join!
+s = "ab"
+s += c #abc
+
+#join, takes in an array and returns a string by joining all of the characters in the array with a common character
+s = ["a", "b", "c", "d"]
+#specify the character to join elements in the array with in the quotations.
+a = "".join(s) # "abcd"
+
+#NOTE - string concatenation in Python is an O(n) operation! If you're building a string, it's better to store the characters in an array,
+#append each new character to the array - which is O(1) - and then use join once at the end which is O(n)
+```
+
 
 
 
