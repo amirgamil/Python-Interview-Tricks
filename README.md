@@ -9,7 +9,7 @@ For Python >= 3.6
 -[Strings](#strings)\
 -[Dictionaries](#dictionaries)\
 -[Priority Queues and Heaps](#priority-queues-and-heaps)\
--[Advanced Data Structures](#advanced-data-structures)\
+-[Advanced Data Structures](#advanced-data-structures)
 
 ### Arrays
 #### Common Operations
