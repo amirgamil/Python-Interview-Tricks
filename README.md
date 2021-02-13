@@ -4,8 +4,8 @@ This is a thorough list of all of the useful Python data structures and tricks t
 For Python >= 3.6
 
 
--[Arrays](#arrays) \n
--[Sorting Arrays and Lambda Functions](#sorting-arrays-and-lambda-functions)
+-[Arrays](#arrays). 
+-[Sorting Arrays and Lambda Functions](#sorting-arrays-and-lambda-functions). 
 -[Strings](#strings)
 -[Dictionaries](#dictionaries)
 -[Priority Queues and Heaps](#priority-queues-and-heaps)
