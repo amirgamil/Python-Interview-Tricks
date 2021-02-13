@@ -1,5 +1,5 @@
 # Python-Interview-Tricks
-This is a thorough list of all of the useful Python data structures and tricks to know for interviews. I will add to this over time as I find more useful features. 
+This is a thorough list of all of the useful Python data structures and tricks to know for interviews. I will add to this over time as I find more useful features. You can also check the time complexity for any Python operations [here](https://wiki.python.org/moin/TimeComplexity).
 
 For Python >= 3.6
 
@@ -18,13 +18,14 @@ Most of us are familiar with arrays, how to define them, and the common operatio
 arr = [1, 2]
 arr.append(1) #[1, 2, 1]
 arr.pop() #[1, 2]
-#can also concatenate with a +. If this is only one element it's an O(1) operation, otherwise, it becomes an O(n) operation
+#can also concatenate with a +. If this is only one element it's an O(1) operation, otherwise, it becomes an O(n + m) operation where n and m 
+#are the sizes of the arrays respectively.
 arr = arr + [5] #[1, 2, 5]
 ```
 Append is an O(1) operation, pop is an O(1) operation, but only for the last index. Poppping anywhere else is an O(n) since the list has to be shifted accordingly. 
 
 #### Defining Arrays
-What about if we want to quickly define an array of some size n? Python makes this very easy and you can often use this as starter code for most dynamic programming problems when setting up an array
+What about if we want to quickly define an array of some size n? Python makes this very easy and you can often use this as **starter code for most dynamic programming problems when setting up an array.**
 ```python
 n = 5
 arr = [0] * n 
@@ -57,7 +58,7 @@ arr[:2] # [1, 2] (from index 0 to 1)
 arr[:-1] #[1, 2, 3] (index from start up to and not including the last element)
 ```
 
-If you want to control the window with which you slice, i.e. pick from every kth index, rather than choosing indices, we specify this via another colon
+If you want to control the window with which you slice, i.e. pick from every kth index, rather than choosing all indices in a given range, we specify this via another colon
 ```python
 arr = [1, 2, 3, 4]
 #follow convention of [start:end:sliceLength] where end is exclusive. 
@@ -84,8 +85,7 @@ if not arr:
   print("It's empty")
 ```
 
-Using the in operation to check if an element is an array is O(n) each time since it performs linear search. It's often more useful to convert
-the array into a set (more on this below), and then you can access elements in O(1).
+Using the in operation to check if an element is an array is O(n) each time since it performs linear search. If you need to check an in operation inside a for loop, it's often more efficient to convert the structure you're searching in to be a set or a dictionary where you can access elements in O(1).
 
 
 ### Sorting Arrays and Lambda Functions
@@ -96,16 +96,16 @@ arr.sort() #arr is now [1, 2, 3, 5]
 ```
 What about sorting more complicated arrays, like arrays of tuples (often found in [interval problems](https://leetcode.com/problems/merge-intervals/))? We can use lambda functions!
 
-A lambda function is an annonymous inner function which we can pass in to the key parameter of sort. The key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value to choose to sort by.
+A lambda function is an annonymous inner function which we can pass in to the key parameter of sort. The key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value inside each tuple to sort by.
 
 ```python
 arr = [(1, 2), (3, 4), (2, 5), (3, 6)]
-#x when called on the array above is going to be each tuple. The lambda function takes in a tuple and return a value (first index of the tuple)
+#this lambda function says for every tuple at an arbitray index, return the first element. This means return the first value in every tuple and sort by that
 arr.sort(key = lambda x: x[0])
 arr #[(1, 2), (2, 5), (3, 6), (3, 4)] Note for values that are the same in different tuples, it will not necessarily make sure they are sorted by their last value
 ```
 
-This allows us to sort in more complex ways very quickly. For example, given a set of coordinates as tuples, we could sort them by their euclidean distance (ignoring the square root for readability here) as such
+This allows us to sort in more complex ways very quickly for certain [problems](https://leetcode.com/problems/k-closest-points-to-origin/). For example, given a set of coordinates as tuples, we could sort them by their Euclidean distance (ignoring the square root for readability here) as such
 ```python
 arr = [(1, 2), (3, 4), (2, 5), (3, 6)]
 arr.sort(key = lambda x: x[0]**2 + x[1]**2)
@@ -129,7 +129,7 @@ s = "hi"
 #split, takes in a string and converts to an array based on a delimiter. If you pass in nothing, it will split every character including spaces/special characters
 arr = s.split() ["h","i"]
 
-#concatenation - this is slow, there's a better way with join!
+#concatenation - this is slow and takes O(n), there's a better way with join!
 s = "ab"
 s += c #abc
 
@@ -162,7 +162,7 @@ The most common types of questions you'll find involving strings will be on slid
 
 ### Dictionaries and Sets
 Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair 
-s, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
+s and sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
 
 Defining a dictionary in Python is straightforward and most of us know how to do it. But there are some fancy tricks. The first is using a defaultdict. A defaultdict is a Python dictionary which handles keys that have not been already defined.
 ```python
@@ -194,7 +194,7 @@ for (course, preq) in prerequisites:
   adjList[course].append(preq)
         
 ```
-Notice how I don't have to check if a course in the adjancey list, I can just append it because defaultdict handles values that haven't been defined
+Notice how I don't have to check if a course in the adjacency list, I can just append it because defaultdict handles values that haven't been defined
 
 2. sliding window problems where you keep track of character:frequency
 Imagine you're trying to count the number of characters that belong to certain ones
@@ -225,10 +225,10 @@ Sets are useful when we need to store states but don't have/care about mappings.
 ```python
 visited = set()
 for row in range(rows):
-       for col in range(cols):
-              visited.add((row, col))
+  for col in range(cols):
+    visited.add((row, col))
 ```
-Anything that is immutable can be stored in sets and and can be used as a key in an dictionary. If you want to store an array as a key in a dictionary, you'll want to first convert it into a tuple. This is a technique used in [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
+Anything that is immutable can be stored in sets and and can be used as a key in an dictionary. If you want to **store an array as a key in a dictionary, you'll want to first convert it into a tuple.** This is a technique used in [Group Anagrams](https://leetcode.com/problems/group-anagrams/)
 
 ```python
 cache = collections.defaultdict(list)
@@ -237,8 +237,8 @@ for word in strs:
   for char in word:
     #since characters are all lowercase, we can associate characters with indices in the array by the difference in their unicodes
     arr[ord(char) - ord("a")] += 1
- #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
-cache[tuple(arr)].append(word)
+  #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
+  cache[tuple(arr)].append(word)
 
 return cache.values()
 ```
@@ -271,9 +271,9 @@ heapq.heapreplace(minHeap, 6) #now our minHeap would look like [6, 8]
 
 Python does not directly have a max heap data structure we can use. The easiest way to use one is to use the min heap operation above but:
 1. multiply (i.e. encode) all your values by -1 before pushing them
-2. multiply (i.e. decode) all your valyes by -1 when you access them for a comparison
+2. multiply (i.e. decode) all your values by -1 when you access them for a comparison
 
-The reason this works is that larger values when multiplier by -1 will be smaller and "pushed to the top." Imagine a tree with -1 and -5 in a min heap. -5 is smaller so would be stored at the root, but (as long as we remember to encode and decode it) this means it has the properties of a max heap! The only thing is **do not forget to encode/decode (i.e. * by -1) all your values before you push/pop.**
+The reason this works is that larger values when multiplied by -1 will be smaller and "pushed to the top." Imagine a tree with -1 and -5 in a min heap. -5 is smaller so would be stored at the root, but (as long as we remember to encode and decode it) this means it has the properties of a max heap! The only thing is **do not forget to encode/decode (i.e. * by -1) all your values before you push/pop.**
 
 
 
@@ -282,7 +282,7 @@ import heapq
 maxHeap = []
 heapq.heapify(maxHeap)
 
-#to avoid confusion, I'd suggest defining custom add/pop operations 
+#to avoid confusion, I'd suggest defining custom operations 
 def push(maxHeap, element):
   heapq.heappush(maxHeap, element * -1)
 
@@ -335,7 +335,7 @@ heapq.heappop() #now our minHeap would look like [(5, "code1"), (8, "code2)]
 
 
 ### Advanced Data Structures
-There are a couple of advanced data structures in Python that don't come up often but are nice to have in your toolkit. The first is OrderedDict. This is essentially a dictionary which maintains relative order in terms of last inserted. So items that are inserted later will be stored in the end of the dictionary. Let's look at an [example](https://www.geeksforgeeks.org/ordereddict-in-python/)
+There are a couple of advanced data structures in Python that don't come up often but are nice to have in your backpocket. The first is OrderedDict. This is essentially a dictionary which maintains relative order in terms of last inserted. So items that are inserted later will be stored in the end of the dictionary. Let's look at an [example](https://www.geeksforgeeks.org/ordereddict-in-python/)
 ```python
 from collections import OrderedDict
 od = OrderedDict()
@@ -345,7 +345,7 @@ od["c"] = 3
 for (key, value) in od.items():
   print(value) 
 ```
-This would print a, b, c on a new line. However, if we did this with a regular Python dictionary, it would not necessarily do this since Python dictionaries don't store order of keys and values. This data structure is incredibly useful for implementing a [Least Recently Used Cache](https://leetcode.com/problems/lru-cache/). This is a cache with a limited size that has an evict policy when the number of elements exceed the capacity - a policy that removes elements that are the least recently used. An important note is that od only updates the relative order **when you add or remove key, value pairs** in the ordered dictionary. If you modify an element, the ordered dictionary will not put this element at the end (i.e. in the same way it would when you add a new element). This is something you have to keep in mind when implementing an LRU cache and can do this easily using the move_to_end function and pass in a key. Continuing our example from above:
+This would print a, b, c each on a new line. However, if we did this with a regular Python dictionary, it would not necessarily do this since Python dictionaries don't store order of (key, value) pairs. This data structure is incredibly useful for implementing a [Least Recently Used Cache](https://leetcode.com/problems/lru-cache/). This is a cache with a limited size that has an evict policy when the number of elements exceed the capacity - a policy that removes elements that are the least recently used. An important note is that ordered dictionary only updates the relative order **when you add or remove (key, value) pairs.** If you modify an element, the ordered dictionary will not put this element at the end (i.e. in the same way it would when you add a new element). This is something you have to keep in mind when implementing an LRU cache and can do this easily using the move_to_end function and pass in a key. Continuing our example from above:
 
 ```python
 od["b"] = 4 #od looks like {"a":1, "b":4, "c":3}
