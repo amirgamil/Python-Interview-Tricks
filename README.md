@@ -1,7 +1,15 @@
 # Python-Interview-Tricks
-This is a thorough list of all of the useful Python data structures and tricks to know for interviews. I will add to this over time as I find more useful features.
+This is a thorough list of all of the useful Python data structures and tricks to know for interviews. I will add to this over time as I find more useful features. 
 
 For Python >= 3.6
+
+
+-[Arrays](#arrays)
+-[Sorting Arrays and Lambda Functions](#sorting-arrays-and-lambda-functions)
+-[Strings](#strings)
+-[Dictionaries](#dictionaries)
+-[Priority Queues and Heaps](#priority-queues-and-heaps)
+-[Advanced Data Structures](#advanced-data-structures)
 
 ### Arrays
 #### Common Operations
@@ -73,7 +81,7 @@ A common edge case is when you check if an array is empty, you can do this very 
 ```python
 arr = []
 if not arr:
-       print("It's empty")
+  print("It's empty")
 ```
 
 Using the in operation to check if an element is an array is O(n) each time since it performs linear search. It's often more useful to convert
@@ -88,13 +96,13 @@ arr.sort() #arr is now [1, 2, 3, 5]
 ```
 What about sorting more complicated arrays, like arrays of tuples (often found in [interval problems](https://leetcode.com/problems/merge-intervals/))? We can use lambda functions!
 
-A lambda function is an annonymous inner function which we can pass in to they key parameter of sort. They key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value to choose to sort by.
+A lambda function is an annonymous inner function which we can pass in to the key parameter of sort. The key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value to choose to sort by.
 
 ```python
 arr = [(1, 2), (3, 4), (2, 5), (3, 6)]
 #x when called on the array above is going to be each tuple. The lambda function takes in a tuple and return a value (first index of the tuple)
 arr.sort(key = lambda x: x[0])
-arr #[(1, 2), (2, 5), (3, 6), (3, 4)] Note for values that are the same, it will not necessarily make sure they are sorted by their last value
+arr #[(1, 2), (2, 5), (3, 6), (3, 4)] Note for values that are the same in different tuples, it will not necessarily make sure they are sorted by their last value
 ```
 
 This allows us to sort in more complex ways very quickly. For example, given a set of coordinates as tuples, we could sort them by their euclidean distance (ignoring the square root for readability here) as such
@@ -152,7 +160,7 @@ stringMap.values() #[4, 3, 2, 1]
 ```
 The most common types of questions you'll find involving strings will be on sliding windows, palindromes, and anagrams. A quick and dirty optimization for some of these questions is to notice whether **there are a limited number of characters as input**. If for example, all characters are lowecase, you can easily get O(1) space by having a size 26 array (for every character) rather than storing elements in a hashmap, which we're moving onto next.
 
-### Hashmaps/Dictionaries
+### Dictionaries
 Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair 
 s, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
 
@@ -183,7 +191,7 @@ you can specify a defaultdict to take a list as a value which is very handy. Her
 """
 adjList = collections.defaultdict(list)
 for (course, preq) in prerequisites:
-       adjList[course].append(preq)
+  adjList[course].append(preq)
         
 ```
 Notice how I don't have to check if a course in the adjancey list, I can just append it because defaultdict handles values that haven't been defined
@@ -195,8 +203,8 @@ string = "some string"
 toCount = ["a", "b", "c"]
 mapChars = collections.defaultdict(int)
 for char in string:
-       if char in toCount:
-              mapChars[char] += 1
+  if char in toCount:
+    mapChars[char] += 1
 ```
 
 Notice that toCount is an array which means when we call in, it will take O(n) where n = length of toCount. We can do better by using a HashSet. A set is
@@ -225,17 +233,105 @@ Anything that is immutable can be stored in sets and and can be used as a key in
 ```python
 cache = collections.defaultdict(list)
 for word in strs:
-       arr = [0] * 26
-       for char in word:
-              #since characters are all lowercase, we can associate characters with indices in the array by the difference in their unicodes
-              arr[ord(char) - ord("a")] += 1
-        #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
-       cache[tuple(arr)].append(word)
+  arr = [0] * 26
+  for char in word:
+    #since characters are all lowercase, we can associate characters with indices in the array by the difference in their unicodes
+    arr[ord(char) - ord("a")] += 1
+ #convert arr into a tuple before accessing it as the key. Since we're using a defaultdict, we can append directly and succintly!
+cache[tuple(arr)].append(word)
 
 return cache.values()
 ```
 
+### Priority Queues and Heaps
+We can use heaps very easily in Python by importing the heapq library. As a quick reminder, heaps are complete binary trees that maintain some relative ordering between elements such that we always have access to the smallest element (min heap at index 0) or largest element (max heap at index 0) in O(1). Their add/pop operations are all O(logn). Recall the [heapify operation is O(n)](https://www.geeksforgeeks.org/building-heap-from-array/) for n unordered elements (i.e. we don't have to loop through n elements and add each one which would be O(nlogn)).
+
+
+```python
+import heapq
+minHeap = []
+#to turn our array into a minHeap, we need to call the heapify operation
+#note you can call heapify on an array already filled with elements as described above
+heapq.heapify(minHeap) #pass in minHeap as the parameter
+
+#add an element
+heapq.heappush(minHeap, 5)
+heapq.heappush(minHeap, 8)
+heapq.heappush(minHeap, 2)
+
+#access to min element
+minHeap[0] # would give us 2
+
+#to remove the minimum element
+heapq.heappop() #now our minHeap would look like [5, 8]
+
+#to replace the minimum element with some other value
+heapq.heapreplace(minHeap, 6) #now our minHeap would look like [6, 8]
+```
+
+Python does not directly have a max heap data structure we can use. The easiest way to use one is to use the min heap operation above but:
+1. multiply (i.e. encode) all your values by -1 before pushing them
+2. multiply (i.e. decode) all your valyes by -1 when you access them for a comparison
+
+The reason this works is that larger values when multiplier by -1 will be smaller and "pushed to the top." Imagine a tree with -1 and -5 in a min heap. -5 is smaller so would be stored at the root, but (as long as we remember to encode and decode it) this means it has the properties of a max heap! The only thing is **do not forget to encode/decode (i.e. * by -1) all your values before you push/pop.**
 
 
 
+```python
+import heapq
+maxHeap = []
+heapq.heapify(maxHeap)
 
+#to avoid confusion, I'd suggest defining custom add/pop operations 
+def push(maxHeap, element):
+  heapq.heappush(maxHeap, element * -1)
+
+def peek(maxHeap):
+  return maxHeap[0] * -1
+
+def pop(maxHeap):
+  return heapq.heappop(maxHeap) * -1
+
+def replace(maxHeap, element):
+  return heapq.heapreplace(maxHeap, element * -1)
+
+#add an element
+push(minHeap, 5)
+push(minHeap, 8)
+push(minHeap, 2)
+
+#access to max element
+peek(maxHeap) #8
+
+#to remove the maximum element
+pop(maxHeap) #8
+
+#to replace the maximum element with some other value
+replace(maxHeap, 3) 
+```
+Note you don't have to define custom functions but it can help avoid mistakes where you forget to multiply by -1 when pushing or popping.
+
+What about if you need to store more information in the heaps with each value. You can use tuples! The important thing to remember is that **the first element of a tuple is what Python will order the heap by**. You'll often need this for some more advanced scheduling questions like [Car Pooling](https://leetcode.com/problems/car-pooling/)
+
+
+```python
+import heapq
+minHeap = []
+heapq.heapify(minHeap)
+
+#add an element
+heapq.heappush(minHeap, (5, "code1"))
+heapq.heappush(minHeap, (8, "code2"))
+heapq.heappush(minHeap, (3, "code3"))
+
+#access to min element
+minHeap[0] # would give us (3, "code3")
+
+#to remove the minimum element
+heapq.heappop() #now our minHeap would look like [(5, "code1"), (8, "code2)]
+
+#you can use the rest of the functions in a similar fashion
+```
+
+
+### Advanced Data Structures
