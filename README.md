@@ -6,10 +6,10 @@ For Python >= 3.6
 
 -[Arrays](#arrays)\
 -[Sorting Arrays and Lambda Functions](#sorting-arrays-and-lambda-functions)\
--[Strings](#strings)
--[Dictionaries](#dictionaries)
--[Priority Queues and Heaps](#priority-queues-and-heaps)
--[Advanced Data Structures](#advanced-data-structures)
+-[Strings](#strings)\
+-[Dictionaries](#dictionaries)\
+-[Priority Queues and Heaps](#priority-queues-and-heaps)\
+-[Advanced Data Structures](#advanced-data-structures)\
 
 ### Arrays
 #### Common Operations
