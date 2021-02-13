@@ -7,7 +7,7 @@ For Python >= 3.6
 -[Arrays](#arrays)\
 -[Sorting Arrays and Lambda Functions](#sorting-arrays-and-lambda-functions)\
 -[Strings](#strings)\
--[Dictionaries](#dictionaries)\
+-[Dictionaries and Sets](#dictionaries-and-sets)\
 -[Priority Queues and Heaps](#priority-queues-and-heaps)\
 -[Advanced Data Structures](#advanced-data-structures)
 
@@ -160,7 +160,7 @@ stringMap.values() #[4, 3, 2, 1]
 ```
 The most common types of questions you'll find involving strings will be on sliding windows, palindromes, and anagrams. A quick and dirty optimization for some of these questions is to notice whether **there are a limited number of characters as input**. If for example, all characters are lowecase, you can easily get O(1) space by having a size 26 array (for every character) rather than storing elements in a hashmap, which we're moving onto next.
 
-### Dictionaries
+### Dictionaries and Sets
 Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair 
 s, sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
 
@@ -335,3 +335,53 @@ heapq.heappop() #now our minHeap would look like [(5, "code1"), (8, "code2)]
 
 
 ### Advanced Data Structures
+There are a couple of advanced data structures in Python that don't come up often but are nice to have in your toolkit. The first is OrderedDict. This is essentially a dictionary which maintains relative order in terms of last inserted. So items that are inserted later will be stored in the end of the dictionary. Let's look at an [example](https://www.geeksforgeeks.org/ordereddict-in-python/)
+```python
+from collections import OrderedDict
+od = OrderedDict()
+od["a"] = 1
+od["b"] = 2
+od["c"] = 3
+for (key, value) in od.items():
+  print(value) 
+```
+This would print a, b, c on a new line. However, if we did this with a regular Python dictionary, it would not necessarily do this since Python dictionaries don't store order of keys and values. This data structure is incredibly useful for implementing a [Least Recently Used Cache](https://leetcode.com/problems/lru-cache/). This is a cache with a limited size that has an evict policy when the number of elements exceed the capacity - a policy that removes elements that are the least recently used. An important note is that od only updates the relative order **when you add or remove key, value pairs** in the ordered dictionary. If you modify an element, the ordered dictionary will not put this element at the end (i.e. in the same way it would when you add a new element). This is something you have to keep in mind when implementing an LRU cache and can do this easily using the move_to_end function and pass in a key. Continuing our example from above:
+
+```python
+od["b"] = 4 #od looks like {"a":1, "b":4, "c":3}
+od.move_to_end("b") #od now looks like {"a":1, "c":3, "b":4}
+```
+
+With this in mind, removing the least recently used element can be done by popping the first element 
+```python
+#takes a parameter whether to pop in a last in first out fashion (like a stack) or not (like a queue)
+od.popitem(last = False) #od now looks like {"c":3, "b":4}
+```
+
+
+The second useful trick to have in your bag is a hacky way to memoize solutions for dynamic programming problems. Normally, we would store subproblems and their results in a cache (dictionary) however for certain problems, this can be difficult to formulate. We can add use Python's lru_cache to save previously computed subproblems without having to directly add values into our cache. This is an example without any memoization
+```python
+#no memoization
+def fib(n):
+  if n == 1:
+    return 1
+  elif n == 0:
+    return 0
+  else:
+    return fib(n - 1) + fib(n - 2)
+```
+Now we use a little bit of Python magic.
+```python
+import functools
+#takes a parameter which represents maximum size of the cache
+@functools.lru_cache(None)
+def fib(n):
+  if n == 1:
+    return 1
+  elif n == 0:
+    return 0
+  else:
+    return fib(n - 1) + fib(n - 2)
+```
+This is equivalent to adding memoization in that Python will store results to previously computed subproblems without us having to do anything! This is useful for questions in which implementing memoization directly can be tricky e.g. in [Minimum Difficulty of a Job Schedule](https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/).
+
