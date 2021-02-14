@@ -309,7 +309,7 @@ replace(maxHeap, 3)
 ```
 Note you don't have to define custom functions but it can help avoid mistakes where you forget to multiply by -1 when pushing or popping.
 
-What about if you need to store more information in the heaps with each value. You can use tuples! The important thing to remember is that **the first element of a tuple is what Python will order the heap by**. You'll often need this for some more advanced scheduling questions like [Car Pooling](https://leetcode.com/problems/car-pooling/)
+What about if you need to store more information in the heaps with each value? You can use tuples! The important thing to remember is that **the first element of a tuple is what Python will order the heap by**. You'll often need this for some more advanced scheduling questions like [Car Pooling](https://leetcode.com/problems/car-pooling/)
 
 
 ```python
