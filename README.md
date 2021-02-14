@@ -161,8 +161,7 @@ stringMap.values() #[4, 3, 2, 1]
 The most common types of questions you'll find involving strings will be on sliding windows, palindromes, and anagrams. A quick and dirty optimization for some of these questions is to notice whether **there are a limited number of characters as input**. If for example, all characters are lowecase, you can easily get O(1) space by having a size 26 array (for every character) rather than storing elements in a hashmap, which we're moving onto next.
 
 ### Dictionaries and Sets
-Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pair 
-s and sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
+Dictionaries in Python serve the purpose of hashmaps. They come in two forms: dictionaries and sets. Dictionaries store key-vale pais and sets are a collection of unordered elements (where you don't necessarily have keys or need keys).
 
 Defining a dictionary in Python is straightforward and most of us know how to do it. But there are some fancy tricks. The first is using a defaultdict. A defaultdict is a Python dictionary which handles keys that have not been already defined.
 ```python
