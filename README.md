@@ -18,8 +18,8 @@ Most of us are familiar with arrays, how to define them, and the common operatio
 arr = [1, 2]
 arr.append(1) #[1, 2, 1]
 arr.pop() #[1, 2]
-#can also concatenate with a +. If this is only one element it's an O(1) operation, otherwise, it becomes an O(n + m) operation where n and m 
-#are the sizes of the arrays respectively.
+#can also concatenate with a +. If this is only one element it's an O(1) operation, otherwise, 
+#it becomes an O(n + m) operation where n and m are the sizes of the arrays respectively.
 arr = arr + [5] #[1, 2, 5]
 ```
 Append is an O(1) operation, pop is an O(1) operation, but only for the last index. Poppping anywhere else is an O(n) since the list has to be shifted accordingly. 
