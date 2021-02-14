@@ -195,8 +195,7 @@ for (course, preq) in prerequisites:
 ```
 Notice how I don't have to check if a course in the adjacency list, I can just append it because defaultdict handles values that haven't been defined
 
-2. sliding window problems where you keep track of character:frequency
-Imagine you're trying to count the number of characters that belong to certain ones
+2. sliding window problems where you keep track of character:frequency. Imagine you're trying to count the number of characters that belong to certain ones
 ```python
 string = "some string"
 toCount = ["a", "b", "c"]
