@@ -357,7 +357,7 @@ od.popitem(last = False) #od now looks like {"c":3, "b":4}
 ```
 
 
-The second useful trick to have in your bag is a hacky way to memoize solutions for dynamic programming problems. Normally, we would store subproblems and their results in a cache (dictionary) however for certain problems, this can be difficult to formulate. We can add use Python's lru_cache to save previously computed subproblems without having to directly add values into our cache. This is an example without any memoization
+The second useful trick to have in your bag is a hacky way to memoize solutions for dynamic programming problems. Normally, we would store subproblems and their results in a cache (dictionary) however for certain problems, this can be difficult to formulate. We can use Python's lru_cache to save previously computed subproblems without having to directly add values into our cache. This is an example without any memoization
 ```python
 #no memoization
 def fib(n):
