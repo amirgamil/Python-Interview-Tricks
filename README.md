@@ -175,7 +175,7 @@ coolDict = collections.defaultDict(int)
 ordinaryDict["a"] += 1 
 
 #this works like a charm!
-ordinaryDict["a"] += 1
+coolDict["a"] += 1
 ```
 
 Defaultdicts are incredibly useful when you need to keep track of frequency of elements or create a map but you don't want to have to keep checking if a key
