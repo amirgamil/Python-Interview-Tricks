@@ -169,7 +169,7 @@ import collections.defaultdict
 
 ordinaryDict = {}
 #we pass in the type that will be stored in values. Let's consider a map of characters to integers, we store ints as the value so we pass in int
-coolDict = collections.defaultDict(int)
+coolDict = collections.defaultdict(int)
 
 #this raises an exception since the key "a" is not defined in the dictionary
 ordinaryDict["a"] += 1 
