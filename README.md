@@ -294,9 +294,9 @@ def replace(maxHeap, element):
   return heapq.heapreplace(maxHeap, element * -1)
 
 #add an element
-push(minHeap, 5)
-push(minHeap, 8)
-push(minHeap, 2)
+push(maxHeap, 5)
+push(maxHeap, 8)
+push(maxHeap, 2)
 
 #access to max element
 peek(maxHeap) #8
