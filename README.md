@@ -96,7 +96,7 @@ arr.sort() #arr is now [1, 2, 3, 5]
 ```
 What about sorting more complicated arrays, like arrays of tuples (often found in [interval problems](https://leetcode.com/problems/merge-intervals/))? We can use lambda functions!
 
-A lambda function is an annonymous inner function which we can pass in to the key parameter of sort. The key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value inside each tuple to sort by.
+A [lambda function](https://www.scaler.com/topics/how-to-use-lambda-functions-in-python/) is an annonymous inner function which we can pass in to the key parameter of sort. The key parameter is how we let the sort method know what to sort by. In this case, if we called sort directly, it would raise an exception since we can't directly sort tuples. But since each element in array is a tuple, we can pass in a lambda function to tell the sort method what numerical value inside each tuple to sort by.
 
 ```python
 arr = [(1, 2), (3, 4), (2, 5), (3, 6)]
