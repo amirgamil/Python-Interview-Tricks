@@ -131,7 +131,7 @@ arr = s.split() ["h","i"]
 
 #concatenation - this is slow and takes O(n), there's a better way with join!
 s = "ab"
-s += c #abc
+s += "c" #abc
 
 #join, takes in an array and returns a string by joining all of the characters in the array with a common character
 s = ["a", "b", "c", "d"]
@@ -273,7 +273,7 @@ Python does not directly have a max heap data structure we can use. The easiest 
 
 The reason this works is that larger values when multiplied by -1 will be smaller and "pushed to the top." Imagine a tree with -1 and -5 in a min heap. -5 is smaller so would be stored at the root, but (as long as we remember to encode and decode it) this means it has the properties of a max heap! The only thing is **do not forget to encode/decode (i.e. * by -1) all your values before you push/pop.**
 
-
+Instead of multiplying, we can just change the sign of the value by prepending `-`.
 
 ```python
 import heapq
@@ -282,16 +282,16 @@ heapq.heapify(maxHeap)
 
 #to avoid confusion, I'd suggest defining custom operations 
 def push(maxHeap, element):
-  heapq.heappush(maxHeap, element * -1)
+  heapq.heappush(maxHeap, -element)
 
 def peek(maxHeap):
-  return maxHeap[0] * -1
+  return -maxHeap[0]
 
 def pop(maxHeap):
-  return heapq.heappop(maxHeap) * -1
+  return -heapq.heappop(maxHeap)
 
 def replace(maxHeap, element):
-  return heapq.heapreplace(maxHeap, element * -1)
+  return heapq.heapreplace(maxHeap, -element)
 
 #add an element
 push(maxHeap, 5)
